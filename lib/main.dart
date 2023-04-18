@@ -1,3 +1,4 @@
+import 'package:breaktest/test.dart';
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:webview_flutter_android/webview_flutter_android.dart';
@@ -7,6 +8,7 @@ void main() {
   runApp(
     const MaterialApp(
       home: WebViewApp(),
+      // home: MyHomePage(),
     ),
   );
 }
@@ -45,7 +47,8 @@ class _WebViewAppState extends State<WebViewApp> {
     }
 
     controller.setJavaScriptMode(JavaScriptMode.unrestricted);
-    controller.loadRequest(Uri.parse('https://market.break.co.kr'));
+    // controller.loadRequest(Uri.parse('https://market-stage.break.co.kr'));
+    controller.loadRequest(Uri.parse('http://192.168.0.93:3000'));
 
     super.initState();
   }
@@ -61,8 +64,14 @@ class _WebViewAppState extends State<WebViewApp> {
         bool result = await _showdialog(context);
         return result;
       },
-      child: Scaffold(
-          body: SafeArea(child: WebViewWidget(controller: controller))),
+      child: SafeArea(
+        child: Scaffold(
+            body: RefreshIndicator(
+                onRefresh: () async {
+                  await controller.reload();
+                },
+                child: WebViewWidget(controller: controller))),
+      ),
     );
   }
 
@@ -70,14 +79,14 @@ class _WebViewAppState extends State<WebViewApp> {
     return showDialog(
       context: context,
       builder: (BuildContext context) => AlertDialog(
-        content: Text('앱을 종료하시겠습니까?'),
+        content: const Text('앱을 종료하시겠습니까?'),
         actions: [
           ElevatedButton(
               onPressed: () => Navigator.of(context).pop(true),
-              child: Text('예')),
+              child: const Text('예')),
           ElevatedButton(
               onPressed: () => Navigator.of(context).pop(false),
-              child: Text('아니오')),
+              child: const Text('아니오')),
         ],
       ),
     );
