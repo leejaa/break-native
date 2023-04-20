@@ -3,12 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:webview_flutter_android/webview_flutter_android.dart';
 import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 void main() {
   runApp(
     const MaterialApp(
-      home: WebViewApp(),
-      // home: MyHomePage(),
+      // home: WebViewApp(),
+      home: MyHomePage(),
     ),
   );
 }
@@ -50,7 +51,19 @@ class _WebViewAppState extends State<WebViewApp> {
     // controller.loadRequest(Uri.parse('https://market-stage.break.co.kr'));
     controller.loadRequest(Uri.parse('http://192.168.0.93:3000'));
 
+    controller.addJavaScriptChannel('openurl',
+        onMessageReceived: (JavaScriptMessage message) {
+      _launchUrl(message.message);
+    });
+
     super.initState();
+  }
+
+  Future<void> _launchUrl(String urlParam) async {
+    final url = Uri.parse(urlParam);
+    if (await canLaunchUrl(url)) {
+      launchUrl(url, mode: LaunchMode.externalApplication);
+    }
   }
 
   @override
