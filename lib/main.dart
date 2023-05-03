@@ -1,15 +1,22 @@
 import 'package:breaktest/test.dart';
 import 'package:flutter/material.dart';
+import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:webview_flutter_android/webview_flutter_android.dart';
 import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:kakao_flutter_sdk_common/kakao_flutter_sdk_common.dart';
 
 void main() {
+  // runApp() 호출 전 Flutter SDK 초기화
+  KakaoSdk.init(
+    nativeAppKey: 'dde657c4208b924808f00c06180b432e',
+  );
+
   runApp(
     const MaterialApp(
-      // home: WebViewApp(),
-      home: MyHomePage(),
+      home: WebViewApp(),
+      // home: MyHomePage(),
     ),
   );
 }
@@ -49,11 +56,22 @@ class _WebViewAppState extends State<WebViewApp> {
 
     controller.setJavaScriptMode(JavaScriptMode.unrestricted);
     // controller.loadRequest(Uri.parse('https://market-stage.break.co.kr'));
-    controller.loadRequest(Uri.parse('http://192.168.0.93:3000'));
+    // controller.loadRequest(Uri.parse('http://192.168.0.93:3000/test'));
+    controller.loadRequest(Uri.parse('http://172.30.1.22:3000/test'));
 
     controller.addJavaScriptChannel('openurl',
         onMessageReceived: (JavaScriptMessage message) {
       _launchUrl(message.message);
+    });
+
+    controller.addJavaScriptChannel('kakaologin',
+        onMessageReceived: (JavaScriptMessage message) async {
+      try {
+        OAuthToken token = await UserApi.instance.loginWithKakaoTalk();
+        print('카카오톡으로 로그인 성공 ${token.accessToken}');
+      } catch (error) {
+        print('카카오톡으로 로그인 실패 $error');
+      }
     });
 
     super.initState();
