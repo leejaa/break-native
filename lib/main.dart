@@ -1,5 +1,6 @@
 import 'package:breaktest/test.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:webview_flutter_android/webview_flutter_android.dart';
@@ -79,6 +80,21 @@ class _WebViewAppState extends State<WebViewApp> {
           print('카카오계정으로 로그인 실패 $error');
         }
       }
+    });
+
+    controller.addJavaScriptChannel('googlelogin',
+        onMessageReceived: (JavaScriptMessage message) async {
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+      final GoogleSignInAuthentication? googleAuth =
+          await googleUser?.authentication;
+
+      print('구글토큰 ${googleAuth?.accessToken}');
+
+      controller.runJavaScriptReturningResult(
+          'alerttest("${googleAuth?.accessToken}")');
+
+      // controller.runJavaScript('alert("${googleAuth?.accessToken}")');
     });
 
     super.initState();
