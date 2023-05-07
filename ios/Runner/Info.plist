@@ -41,6 +41,8 @@
 	<array>
 		<string>kakaokompassauth</string>
 		<string>kakaolink</string>
+		<string>naversearchapp</string>
+       	<string>naversearchthirdlogin</string>
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
@@ -75,8 +77,46 @@
 				<!-- TODO Replace this value: -->
 				<!-- Copied from GoogleService-Info.plist key REVERSED_CLIENT_ID -->
 				<string>com.googleusercontent.apps.287765875867-impo3kgh4kmupj0rhc05c4ppm2ae55pf</string>
+				<!-- naver login -->
+        		<string>socialloginapp</string>
 			</array>
 		</dict>
 	</array>
+	<key>naverServiceAppUrlScheme</key>
+    <string>socialloginapp</string>
+	<!-- naver client_id -->
+    <key>naverConsumerKey</key>
+    <string>bcsTuxr40PmyOfp40iIZ</string>
+    
+    <!-- naver client_secret -->
+    <key>naverConsumerSecret</key>
+    <string>jSiTYiHwal</string>
+
+    <key>naverServiceAppName</key>
+    <string>break-test</string>
+
+	<!-- http allows configurations -->
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+		<key>NSExceptionDomains</key>
+		<dict>
+			<key>naver.com</key>
+			<dict>
+				<key>NSExceptionRequiresForwardSecrecy</key>
+				<false/>
+				<key>NSIncludesSubdomains</key>
+				<true/>
+			</dict>
+			<key>naver.net</key>
+			<dict>
+				<key>NSExceptionRequiresForwardSecrecy</key>
+				<false/>
+				<key>NSIncludesSubdomains</key>
+				<true/>
+			</dict>
+		</dict>
+	</dict>
 </dict>
 </plist>

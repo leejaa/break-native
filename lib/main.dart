@@ -7,6 +7,7 @@ import 'package:webview_flutter_android/webview_flutter_android.dart';
 import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:kakao_flutter_sdk_common/kakao_flutter_sdk_common.dart';
+import 'package:flutter_naver_login/flutter_naver_login.dart';
 
 void main() {
   // runApp() 호출 전 Flutter SDK 초기화
@@ -70,6 +71,8 @@ class _WebViewAppState extends State<WebViewApp> {
       try {
         OAuthToken token = await UserApi.instance.loginWithKakaoTalk();
         print('카카오톡으로 로그인 성공 ${token.accessToken}');
+
+        controller.runJavaScriptReturningResult('alerttest("${token}")');
       } catch (error) {
         print('카카오톡으로 로그인 실패 $error');
 
@@ -95,6 +98,17 @@ class _WebViewAppState extends State<WebViewApp> {
           'alerttest("${googleAuth?.accessToken}")');
 
       // controller.runJavaScript('alert("${googleAuth?.accessToken}")');
+    });
+
+    controller.addJavaScriptChannel('naverlogin',
+        onMessageReceived: (JavaScriptMessage message) async {
+      final NaverLoginResult result = await FlutterNaverLogin.logIn();
+      NaverAccessToken res = await FlutterNaverLogin.currentAccessToken;
+
+      print('네이버토큰 ${result.accessToken}');
+
+      controller
+          .runJavaScriptReturningResult('alerttest("${result.accessToken}")');
     });
 
     super.initState();
