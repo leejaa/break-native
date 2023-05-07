@@ -71,6 +71,13 @@ class _WebViewAppState extends State<WebViewApp> {
         print('카카오톡으로 로그인 성공 ${token.accessToken}');
       } catch (error) {
         print('카카오톡으로 로그인 실패 $error');
+
+        try {
+          OAuthToken token2 = await UserApi.instance.loginWithKakaoAccount();
+          print('카카오계정으로 로그인 성공 ${token2.accessToken}');
+        } catch (error) {
+          print('카카오계정으로 로그인 실패 $error');
+        }
       }
     });
 
