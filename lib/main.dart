@@ -8,6 +8,7 @@ import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:kakao_flutter_sdk_common/kakao_flutter_sdk_common.dart';
 import 'package:flutter_naver_login/flutter_naver_login.dart';
+import 'package:share_plus/share_plus.dart';
 
 void main() {
   // runApp() 호출 전 Flutter SDK 초기화
@@ -47,6 +48,8 @@ class _WebViewAppState extends State<WebViewApp> {
 
     controller = WebViewController.fromPlatformCreationParams(params);
 
+    controller.setJavaScriptMode(JavaScriptMode.unrestricted);
+
     if (controller.platform is AndroidWebViewController) {
       AndroidWebViewController.enableDebugging(true);
     }
@@ -58,8 +61,9 @@ class _WebViewAppState extends State<WebViewApp> {
 
     controller.setJavaScriptMode(JavaScriptMode.unrestricted);
     // controller.loadRequest(Uri.parse('https://market-stage.break.co.kr'));
-    // controller.loadRequest(Uri.parse('http://192.168.0.93:3000/test'));
-    controller.loadRequest(Uri.parse('http://172.30.1.22:3000/test'));
+    controller.loadRequest(Uri.parse('http://192.168.0.93:3000/test'));
+    // controller.loadRequest(Uri.parse('http://192.168.0.93:3000'));
+    // controller.loadRequest(Uri.parse('http://172.30.1.22:3000/test'));
 
     controller.addJavaScriptChannel('openurl',
         onMessageReceived: (JavaScriptMessage message) {
@@ -79,6 +83,8 @@ class _WebViewAppState extends State<WebViewApp> {
         try {
           OAuthToken token2 = await UserApi.instance.loginWithKakaoAccount();
           print('카카오계정으로 로그인 성공 ${token2.accessToken}');
+          controller.runJavaScriptReturningResult(
+              'alerttest("${token2.accessToken}")');
         } catch (error) {
           print('카카오계정으로 로그인 실패 $error');
         }
@@ -105,10 +111,22 @@ class _WebViewAppState extends State<WebViewApp> {
       final NaverLoginResult result = await FlutterNaverLogin.logIn();
       NaverAccessToken res = await FlutterNaverLogin.currentAccessToken;
 
-      print('네이버토큰 ${result.accessToken}');
+      print('result = ${result}');
+      print('res = ${res}');
 
-      controller
-          .runJavaScriptReturningResult('alerttest("${result.accessToken}")');
+      if (result.status == NaverLoginStatus.loggedIn) {
+        print('accessToken = ${res.accessToken}');
+
+        controller
+            .runJavaScriptReturningResult('alerttest("${res.accessToken}")');
+      }
+    });
+
+    controller.addJavaScriptChannel('share',
+        onMessageReceived: (JavaScriptMessage message) async {
+      print('message = ${message.message}');
+
+      Share.share(message.message);
     });
 
     super.initState();
