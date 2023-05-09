@@ -31,6 +31,23 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
+				<string>com.googleusercontent.apps.287765875867-impo3kgh4kmupj0rhc05c4ppm2ae55pf</string>
+				<string>socialloginapp</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>breaktest</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
 				<string>kakaodde657c4208b924808f00c06180b432e</string>
 			</array>
 		</dict>
@@ -42,60 +59,10 @@
 		<string>kakaokompassauth</string>
 		<string>kakaolink</string>
 		<string>naversearchapp</string>
-       	<string>naversearchthirdlogin</string>
+		<string>naversearchthirdlogin</string>
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-	<key>UIApplicationSupportsIndirectInputEvents</key>
-	<true/>
-	<key>UILaunchStoryboardName</key>
-	<string>LaunchScreen</string>
-	<key>UIMainStoryboardFile</key>
-	<string>Main</string>
-	<key>UISupportedInterfaceOrientations</key>
-	<array>
-		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
-	</array>
-	<key>UISupportedInterfaceOrientations~ipad</key>
-	<array>
-		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationPortraitUpsideDown</string>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
-	</array>
-	<key>UIViewControllerBasedStatusBarAppearance</key>
-	<false/>
-	<key>CFBundleURLTypes</key>
-	<array>
-		<dict>
-			<key>CFBundleTypeRole</key>
-			<string>Editor</string>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<!-- TODO Replace this value: -->
-				<!-- Copied from GoogleService-Info.plist key REVERSED_CLIENT_ID -->
-				<string>com.googleusercontent.apps.287765875867-impo3kgh4kmupj0rhc05c4ppm2ae55pf</string>
-				<!-- naver login -->
-        		<string>socialloginapp</string>
-			</array>
-		</dict>
-	</array>
-	<key>naverServiceAppUrlScheme</key>
-    <string>socialloginapp</string>
-	<!-- naver client_id -->
-    <key>naverConsumerKey</key>
-    <string>bcsTuxr40PmyOfp40iIZ</string>
-    
-    <!-- naver client_secret -->
-    <key>naverConsumerSecret</key>
-    <string>jSiTYiHwal</string>
-
-    <key>naverServiceAppName</key>
-    <string>break-test</string>
-
-	<!-- http allows configurations -->
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
@@ -118,5 +85,34 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>UIApplicationSupportsIndirectInputEvents</key>
+	<true/>
+	<key>UILaunchStoryboardName</key>
+	<string>LaunchScreen</string>
+	<key>UIMainStoryboardFile</key>
+	<string>Main</string>
+	<key>UISupportedInterfaceOrientations</key>
+	<array>
+		<string>UIInterfaceOrientationPortrait</string>
+		<string>UIInterfaceOrientationLandscapeLeft</string>
+		<string>UIInterfaceOrientationLandscapeRight</string>
+	</array>
+	<key>UISupportedInterfaceOrientations~ipad</key>
+	<array>
+		<string>UIInterfaceOrientationPortrait</string>
+		<string>UIInterfaceOrientationPortraitUpsideDown</string>
+		<string>UIInterfaceOrientationLandscapeLeft</string>
+		<string>UIInterfaceOrientationLandscapeRight</string>
+	</array>
+	<key>UIViewControllerBasedStatusBarAppearance</key>
+	<false/>
+	<key>naverConsumerKey</key>
+	<string>bcsTuxr40PmyOfp40iIZ</string>
+	<key>naverConsumerSecret</key>
+	<string>jSiTYiHwal</string>
+	<key>naverServiceAppName</key>
+	<string>break-test</string>
+	<key>naverServiceAppUrlScheme</key>
+	<string>socialloginapp</string>
 </dict>
 </plist>
