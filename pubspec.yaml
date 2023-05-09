@@ -43,6 +43,7 @@ dependencies:
   google_sign_in: ^6.1.0
   flutter_naver_login: ^1.8.0
   share_plus: ^4.5.3
+  uni_links: ^0.5.1
 
 dev_dependencies:
   flutter_test:

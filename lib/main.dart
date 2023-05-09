@@ -1,3 +1,6 @@
+import 'dart:async';
+import 'dart:io';
+
 import 'package:breaktest/test.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -9,6 +12,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:kakao_flutter_sdk_common/kakao_flutter_sdk_common.dart';
 import 'package:flutter_naver_login/flutter_naver_login.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:uni_links/uni_links.dart';
 
 void main() {
   // runApp() 호출 전 Flutter SDK 초기화
@@ -34,9 +38,29 @@ class WebViewApp extends StatefulWidget {
 class _WebViewAppState extends State<WebViewApp> {
   late final WebViewController controller;
   late final PlatformWebViewControllerCreationParams params;
+  StreamSubscription? _sub;
+
+  void _handleIncomingLinks() {
+    // It will handle app links while the app is already started - be it in
+    // the foreground or in the background.
+    _sub = uriLinkStream.listen((Uri? uri) {
+      print('가가가가가가가가가가가가가가가가가가가가가가가가');
+      if (!mounted) return;
+      print('나나나나나나나나나나나나나나나나나나나나나나나나: ${uri?.queryParameters['url']}');
+
+      Uri newUri = Uri.parse('https://${uri?.queryParameters['url']}');
+
+      controller.loadRequest(newUri);
+    }, onError: (Object err) {
+      if (!mounted) return;
+      print('다다다다다다다다다다다다다다다다다다다다다다다다: $err');
+    });
+  }
 
   @override
   void initState() {
+    _handleIncomingLinks();
+
     if (WebViewPlatform.instance is WebKitWebViewPlatform) {
       params = WebKitWebViewControllerCreationParams(
         allowsInlineMediaPlayback: true,
@@ -61,8 +85,8 @@ class _WebViewAppState extends State<WebViewApp> {
 
     controller.setJavaScriptMode(JavaScriptMode.unrestricted);
     // controller.loadRequest(Uri.parse('https://market-stage.break.co.kr'));
-    controller.loadRequest(Uri.parse('http://192.168.0.93:3000/test'));
-    // controller.loadRequest(Uri.parse('http://192.168.0.93:3000'));
+    // controller.loadRequest(Uri.parse('http://192.168.0.93:3000/test'));
+    controller.loadRequest(Uri.parse('http://192.168.0.93:3000'));
     // controller.loadRequest(Uri.parse('http://172.30.1.22:3000/test'));
 
     controller.addJavaScriptChannel('openurl',
@@ -130,6 +154,12 @@ class _WebViewAppState extends State<WebViewApp> {
     });
 
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _sub?.cancel();
+    super.dispose();
   }
 
   Future<void> _launchUrl(String urlParam) async {
